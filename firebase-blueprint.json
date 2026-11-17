@@ -1,0 +1,290 @@
+{
+  "entities": {
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized store administrator record",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Admin Firebase Auth UID" },
+        "email": { "type": "string", "description": "Admin verified email" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "ServerTimestamp" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Customer profile, saved shipping details, and privacy preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "defaultAddress": { "type": "string" },
+        "city": { "type": "string" },
+        "postalCode": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "admin"] },
+        "accountStatus": { "type": "string", "enum": ["active", "suspended"] },
+        "privacyMarketingOptIn": { "type": "boolean" },
+        "twoFactorReminderEnabled": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "FieldValue.serverTimestamp()" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "FieldValue.serverTimestamp()" }
+      },
+      "required": [
+        "userId",
+        "displayName",
+        "email",
+        "role",
+        "accountStatus",
+        "privacyMarketingOptIn",
+        "twoFactorReminderEnabled",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Storefront catalog item across fashion, tech, skincare, haircare, and essentials",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "brand": { "type": "string" },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Clothes",
+            "Shoes",
+            "Fashion Accessories",
+            "Electronics",
+            "Smartphones",
+            "Gadgets",
+            "Face Washes",
+            "Skincare",
+            "Haircare",
+            "Everyday Essentials"
+          ]
+        },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "discountPercent": { "type": "integer" },
+        "rating": { "type": "number" },
+        "reviewCount": { "type": "integer" },
+        "stock": { "type": "integer" },
+        "imageKey": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "featured": { "type": "boolean" },
+        "active": { "type": "boolean" },
+        "highlights": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "name",
+        "brand",
+        "category",
+        "description",
+        "price",
+        "originalPrice",
+        "discountPercent",
+        "rating",
+        "reviewCount",
+        "stock",
+        "imageKey",
+        "featured",
+        "active",
+        "highlights",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CartItem": {
+      "title": "CartItem",
+      "description": "Shopping cart item scoped to a customer",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "title": { "type": "string" },
+        "brand": { "type": "string" },
+        "category": { "type": "string" },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "discountPercent": { "type": "integer" },
+        "imageKey": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "quantity": { "type": "integer" },
+        "selectedVariant": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "productId",
+        "title",
+        "brand",
+        "category",
+        "price",
+        "originalPrice",
+        "discountPercent",
+        "imageKey",
+        "quantity",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "WishlistItem": {
+      "title": "WishlistItem",
+      "description": "Saved wishlist item scoped to a customer",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "title": { "type": "string" },
+        "brand": { "type": "string" },
+        "category": { "type": "string" },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "discountPercent": { "type": "integer" },
+        "rating": { "type": "number" },
+        "imageKey": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "productId",
+        "title",
+        "brand",
+        "category",
+        "price",
+        "originalPrice",
+        "discountPercent",
+        "rating",
+        "imageKey",
+        "createdAt"
+      ]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer order with payment method, fulfillment tracking, and returns/refunds",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "orderNumber": { "type": "string" },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "discountAmount": { "type": "number" },
+        "shippingFee": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["UPI", "CARD", "NET_BANKING", "COD"] },
+        "paymentDetails": { "type": "string" },
+        "paymentStatus": { "type": "string", "enum": ["PAID", "COD_PENDING", "REFUND_INITIATED", "REFUNDED"] },
+        "shippingAddress": { "type": "string" },
+        "shippingPhone": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": [
+            "PLACED",
+            "CONFIRMED",
+            "PACKED",
+            "SHIPPED",
+            "OUT_FOR_DELIVERY",
+            "DELIVERED",
+            "CANCELLED",
+            "RETURN_REQUESTED",
+            "RETURNED",
+            "REFUNDED"
+          ]
+        },
+        "trackingNumber": { "type": "string" },
+        "estimatedDelivery": { "type": "string" },
+        "returnReason": { "type": "string" },
+        "refundAmount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId",
+        "customerName",
+        "customerEmail",
+        "orderNumber",
+        "items",
+        "subtotal",
+        "discountAmount",
+        "shippingFee",
+        "totalAmount",
+        "paymentMethod",
+        "paymentDetails",
+        "paymentStatus",
+        "shippingAddress",
+        "shippingPhone",
+        "status",
+        "trackingNumber",
+        "estimatedDelivery",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "Customer support inquiry or dispute ticket",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "topic": {
+          "type": "string",
+          "enum": ["Order Issue", "Payment & Refund", "Return Request", "Product Inquiry", "Account & Privacy"]
+        },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "orderNumber": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "IN_REVIEW", "RESOLVED"] },
+        "adminReply": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId",
+        "customerName",
+        "customerEmail",
+        "topic",
+        "subject",
+        "message",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/admins/{adminUid}": {
+      "schema": { "$ref": "#/entities/Admin" },
+      "description": "Store administrators"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Customer profiles isolated by userId"
+    },
+    "/users/{userId}/cart/{cartItemId}": {
+      "schema": { "$ref": "#/entities/CartItem" },
+      "description": "Customer shopping cart items"
+    },
+    "/users/{userId}/wishlist/{productId}": {
+      "schema": { "$ref": "#/entities/WishlistItem" },
+      "description": "Customer wishlist items"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Storefront product catalog"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Customer orders with fulfillment and refund tracking"
+    },
+    "/support_tickets/{ticketId}": {
+      "schema": { "$ref": "#/entities/SupportTicket" },
+      "description": "Customer support tickets"
+    }
+  }
+}
